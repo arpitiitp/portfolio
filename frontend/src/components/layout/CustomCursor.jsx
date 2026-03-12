@@ -1,55 +1,73 @@
-import { motion } from "framer-motion";
-import { useMousePosition } from "../../hooks/useMousePosition";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export const CustomCursor = () => {
-  const { x, y } = useMousePosition();
   const [isHovering, setIsHovering] = useState(false);
 
+  // Use MotionValues for raw performance (bypasses React render cycle)
+  const cursorX = useMotionValue(-100);
+  const cursorY = useMotionValue(-100);
+
+  // Smooth out the outer circle with useSpring for that fluid sci-fi feel
+  const springConfig = { damping: 25, stiffness: 300, mass: 0.5 };
+  const smoothX = useSpring(cursorX, springConfig);
+  const smoothY = useSpring(cursorY, springConfig);
+
   useEffect(() => {
+    const moveCursor = (e) => {
+      cursorX.set(e.clientX);
+      cursorY.set(e.clientY);
+    };
+
     const handleMouseOver = (e) => {
-      if (e.target.tagName.toLowerCase() === 'a' || 
-          e.target.tagName.toLowerCase() === 'button' ||
-          e.target.closest('button') || 
-          e.target.closest('a')) {
+      // Check if hovering over clickable elements
+      if (
+        e.target.tagName.toLowerCase() === 'a' || 
+        e.target.tagName.toLowerCase() === 'button' ||
+        e.target.closest('button') || 
+        e.target.closest('a') ||
+        window.getComputedStyle(e.target).cursor === 'pointer'
+      ) {
         setIsHovering(true);
       } else {
         setIsHovering(false);
       }
     };
     
+    window.addEventListener("mousemove", moveCursor);
     document.addEventListener("mouseover", handleMouseOver);
-    return () => document.removeEventListener("mouseover", handleMouseOver);
-  }, []);
+    
+    return () => {
+      window.removeEventListener("mousemove", moveCursor);
+      document.removeEventListener("mouseover", handleMouseOver);
+    };
+  }, [cursorX, cursorY]);
 
   return (
     <>
+      {/* Outer Glow Ring */}
       <motion.div
         className="fixed top-0 left-0 w-8 h-8 rounded-full border border-cyber-neon z-[9999] pointer-events-none mix-blend-screen"
+        style={{
+          x: smoothX,
+          y: smoothY,
+          translateX: "-50%",
+          translateY: "-50%",
+        }}
         animate={{
-          x: x - 16,
-          y: y - 16,
-          scale: isHovering ? 1.5 : 1,
-          backgroundColor: isHovering ? "rgba(0, 240, 255, 0.1)" : "transparent"
+          scale: isHovering ? 1.8 : 1,
+          backgroundColor: isHovering ? "rgba(0, 240, 255, 0.15)" : "transparent"
         }}
-        transition={{
-          type: "spring",
-          stiffness: 150,
-          damping: 15,
-          mass: 0.5
-        }}
+        transition={{ duration: 0.2 }}
       />
+      {/* Inner Dot */}
       <motion.div
         className="fixed top-0 left-0 w-2 h-2 bg-cyber-neon rounded-full z-[9999] pointer-events-none mix-blend-screen glow-cyan"
-        animate={{
-          x: x - 4,
-          y: y - 4,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 400,
-          damping: 25,
-          mass: 0.1
+        style={{
+          x: cursorX,
+          y: cursorY,
+          translateX: "-50%",
+          translateY: "-50%",
         }}
       />
     </>

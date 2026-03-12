@@ -58,4 +58,10 @@
   background: #b026ff;
 }
 
-/* Removed animated cursor */
+/* Hide default cursor to use custom animated one */
+body {
+  cursor: none;
+}
+a, button, input, textarea {
+  cursor: none !important;
+}

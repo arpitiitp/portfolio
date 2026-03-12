@@ -1,3 +1,4 @@
+import { CustomCursor } from "./components/layout/CustomCursor";
 import { Navbar } from "./components/layout/Navbar";
 import { Hero } from "./sections/Hero";
 import { About } from "./sections/About";
@@ -8,6 +9,7 @@ import { Contact } from "./sections/Contact";
 function App() {
   return (
     <div className="relative bg-cyber-bg min-h-screen selection:bg-cyber-neon/30 selection:text-white">
+      <CustomCursor />
       <Navbar />
       
       <main className="relative z-10">

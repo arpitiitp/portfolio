@@ -59,7 +59,7 @@ export const Skills = () => {
                 type: 'spring',
                 stiffness: 300
               }}
-              className={`glass-panel px-6 py-4 border-${skill.color}/30 text-center transition-colors duration-300 hover:border-${skill.color}`}
+              className={`glass-panel px-6 py-4 border-${skill.color}/30 text-center cursor-none transition-colors duration-300 hover:border-${skill.color}`}
             >
               <p className="text-xs font-mono text-gray-500 mb-1">{skill.category}</p>
               <h3 className={`text-xl font-bold text-${skill.color}`}>{skill.name}</h3>

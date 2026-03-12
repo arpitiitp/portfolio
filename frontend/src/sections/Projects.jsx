@@ -66,7 +66,7 @@ export const Projects = () => {
               viewport={{ once: true, amount: 0.1 }}
               transition={{ duration: 0.5, delay: index * 0.2 }}
               whileHover={{ y: -10 }}
-              className={`glass-panel p-8 group relative flex flex-col h-full overflow-hidden border-white/5 hover:border-${project.color} transition-colors duration-300 shadow-lg`}
+              className={`glass-panel p-8 group relative flex flex-col h-full overflow-hidden cursor-none border-white/5 hover:border-${project.color} transition-colors duration-300 shadow-lg`}
             >
               {/* Hover gradient background effect */}
               <div className={`absolute inset-0 bg-gradient-to-br from-${project.color}/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
@@ -83,7 +83,7 @@ export const Projects = () => {
                         target="_blank"
                         rel="noreferrer"
                         whileHover={{ scale: 1.2, rotate: 5 }}
-                        className="text-gray-400 hover:text-white transition-colors pointer-events-auto z-20"
+                        className="text-gray-400 hover:text-white transition-colors cursor-none pointer-events-auto z-20"
                       >
                         <Github className="w-6 h-6" />
                       </motion.a>
@@ -94,7 +94,7 @@ export const Projects = () => {
                         target="_blank"
                         rel="noreferrer"
                         whileHover={{ scale: 1.2, rotate: 10 }}
-                        className="text-gray-400 hover:text-cyber-neon transition-colors pointer-events-auto z-20"
+                        className="text-gray-400 hover:text-cyber-neon transition-colors cursor-none pointer-events-auto z-20"
                       >
                         <ExternalLink className="w-6 h-6" />
                       </motion.a>
